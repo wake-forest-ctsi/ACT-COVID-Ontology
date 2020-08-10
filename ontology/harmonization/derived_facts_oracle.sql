@@ -1,4 +1,3 @@
-DROP TABLE "TMP_I2B2_METADATA";
 --------------------------------------------------------
 --  DDL for Table TMP_I2B2_METADATA
 --------------------------------------------------------
@@ -51,7 +50,7 @@ ALTER TABLE "TMP_I2B2_METADATA" MODIFY ("C_HLEVEL" NOT NULL ENABLE);
 
 
 insert into tmp_i2b2_metadata
-select * from act_covid where c_fullname LIKE '\ACT\UMLS_C0031437\SNOMED_3947185011\UMLS_C0022885\%' and (upper(c_name) like '%POSITIVE%' or upper(c_name) like '%EQUIVOCAL%' or upper(c_name) like '%NEGATIVE%' or upper(c_name) like '%PENDING%')  order by 1,2
+select * from act_covid where c_fullname LIKE '\ACT\UMLS%C0031437\SNOMED%3947185011\UMLS%C0022885\%' and (upper(c_name) like '%POSITIVE%' or upper(c_name) like '%EQUIVOCAL%' or upper(c_name) like '%NEGATIVE%' or upper(c_name) like '%PENDING%')  order by 1,2
 ;
 
 update tmp_i2b2_metadata src
@@ -73,7 +72,7 @@ update tmp_i2b2_metadata src
 set
     src.c_dimcode = case
         when src.c_visualattributes like 'L%' then src.c_dimcode || ') and concept_cd in (''' || substr(src.c_basecode,0,instr(src.c_basecode,' ')-1) || ''''
-        when src.c_visualattributes like 'M%' then src.c_dimcode || ') and concept_cd in (' || (select LISTAGG(substr(c_basecode,0,instr(c_basecode,' ')-1) || '''',',') WITHIN group(order by c_basecode) from tmp_i2b2_metadata where c_fullname like (src.c_fullname || '%') and tmp_i2b2_metadata.c_visualattributes like 'L%')
+        when src.c_visualattributes like 'M%' then src.c_dimcode || ') and concept_cd in (''' || (select LISTAGG(substr(c_basecode,0,instr(c_basecode,' ')-1) || '''',',''') WITHIN group(order by c_basecode) from tmp_i2b2_metadata where c_fullname like (src.c_fullname || '%') and tmp_i2b2_metadata.c_visualattributes like 'L%')
         end
 ;
 

@@ -166,9 +166,8 @@ when not matched then
 /* Performance issues with underscores */
 update act_covid
 set
-    c_fullname = replace(c_fullname,'_','')
-    ,c_dimcode = case
-        when trim(lower(c_tablename)) = 'concept_dimension' then replace(c_fullname,'_','')
+  c_dimcode = case
+        when trim(lower(c_tablename)) = 'concept_dimension' then replace(c_dimcode,'_','')
         else c_dimcode
         end
 where 

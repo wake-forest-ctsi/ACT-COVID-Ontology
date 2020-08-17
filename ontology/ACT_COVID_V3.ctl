@@ -1,4 +1,4 @@
---sqlldr user/password@//localhost:1521/orcl bad='bad_file.txt' control='control.ctl' data='data.txt' log='log.txt' direct='true'   
+--sqlldr user/password@//localhost:1521/orcl bad='bad_file.txt' control='ACT_COVID_V3.ctl' data='ACT_COVID_V3.dsv' log='log.txt' direct='true'   
 OPTIONS (DIRECT=TRUE)
 load data 
 infile 'ACT_COVID_V3.dsv' "str '\n'"
